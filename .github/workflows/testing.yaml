@@ -24,6 +24,9 @@ jobs:
 
       - name: Install playwright dependencies
         run: npx playwright install
+
+      - name: run the application for end to end testing
+        run: docker compose up --build
       
       - name: Run tests
         run: npm test

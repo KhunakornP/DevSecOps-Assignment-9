@@ -25,8 +25,15 @@ jobs:
       - name: Install playwright dependencies
         run: npx playwright install
 
-      - name: run the application for end to end testing
-        run: docker compose up --build
+      - name: Start application in background
+        run: docker compose up -d --build
+
+      - name: Wait for application to be ready
+        run: npx wait-on ${{ secrets.APP_HOST_URL }} --timeout 60000
       
       - name: Run tests
         run: npm test
+
+      - name: Tear down application
+        if: always() 
+        run: docker compose down
